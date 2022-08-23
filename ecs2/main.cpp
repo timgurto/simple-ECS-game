@@ -1,11 +1,12 @@
 #include <conio.h>
 
 #include <iostream>
+#include <string>
 
 auto playerLoc = 5;
 auto mapSize = 10;
 
-void handleInput() {
+void handleNextKeyPress() {
   const auto LEFT_ARROW = 75;
   const auto RIGHT_ARROW = 77;
 
@@ -23,9 +24,9 @@ void handleInput() {
 void drawGameState() {
   std::cout << '\r';
 
-  for (auto x = 1; x < playerLoc; ++x) std::cout << '.';
-  std::cout << 'P';
-  for (auto x = playerLoc + 1; x != mapSize; ++x) std::cout << '.';
+  auto map = std::string(mapSize, '.');
+  map[playerLoc] = 'P';
+  std::cout << map;
 
   std::cout << std::flush;
 }
@@ -33,6 +34,6 @@ void drawGameState() {
 int main() {
   while (true) {
     drawGameState();
-    handleInput();
+    handleNextKeyPress();
   }
 }
