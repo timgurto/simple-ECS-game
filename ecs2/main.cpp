@@ -3,6 +3,9 @@
 #include <iostream>
 #include <string>
 
+#include "Component.h"
+#include "Entity.h"
+
 auto playerLoc = 5;
 auto mapSize = 10;
 
@@ -32,8 +35,13 @@ void drawGameState() {
 }
 
 int main() {
+  auto &player = Entity::createNewEntity();
+  player.addComponent(new Drawable{'P'});
+
   while (true) {
     drawGameState();
     handleNextKeyPress();
   }
+
+  Entity::destroyEntity(player);
 }
