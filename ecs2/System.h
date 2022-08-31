@@ -8,11 +8,13 @@ struct Component;
 
 class System {
  public:
-  using UpdateFunction = void (*)(Entity &, void *data);
+  using Entities = std::set<Entity *>;
+
+  using UpdateFunction = void (*)(Entities &relevantEntities);
 
   static System &createNewSystem();
 
-  void update(void *data);
+  void update();
 
   template <typename COMPONENT>
   System &requiresComponent() {
@@ -26,7 +28,7 @@ class System {
                                                 Entity &entity);
 
  private:
-  std::set<Entity *> m_relevantEntities;
+  Entities m_relevantEntities;
   UpdateFunction m_updateFunction{nullptr};
 
   // For an Entity to be 'relevant', it must have all of these components

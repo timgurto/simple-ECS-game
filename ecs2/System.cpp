@@ -21,8 +21,6 @@ System &System::setUpdateFunction(UpdateFunction func) {
   return *this;
 }
 
-void System::update(void *data) {
-  if (!m_updateFunction) return;
-
-  for (auto *entity : m_relevantEntities) m_updateFunction(*entity, data);
+void System::update() {
+  if (m_updateFunction) m_updateFunction(m_relevantEntities);
 }

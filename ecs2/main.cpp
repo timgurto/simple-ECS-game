@@ -25,27 +25,27 @@ void handleNextKeyPress() {
   }
 }
 
-void drawGameState(System &drawingSystem) {
-  std::cout << '\r';
-
-  auto map = std::string(mapSize, ' ');
-  drawingSystem.update(&map);  // Draw all drawable entities
-  std::cout << map;
-
-  std::cout << std::flush;
-}
-
 int main() {
   // 1. Set up systems and their related components
   auto &drawingSystem =
       System::createNewSystem()
           .requiresComponent<Drawable>()
           .requiresComponent<HasLocation>()
-          .setUpdateFunction([](Entity &entity, void *data) {
-            auto &map = *reinterpret_cast<std::string *>(data);
-            auto location = entity.getComponent<HasLocation>().getLocation();
-            auto glyph = entity.getComponent<Drawable>().glyph;
-            map[location] = glyph;
+          .setUpdateFunction([](System::Entities &relevantEntities) {
+            // Clear
+            std::cout << '\r';
+            auto map = std::string(mapSize, ' ');
+
+            // Draw entities
+            for (auto *entity : relevantEntities) {
+              auto location = entity->getComponent<HasLocation>().getLocation();
+              auto glyph = entity->getComponent<Drawable>().glyph;
+              map[location] = glyph;
+            }
+
+            // Present
+            std::cout << map;
+            std::cout << std::flush;
           });
 
   // 2. Set up entities
@@ -66,7 +66,7 @@ int main() {
 
   // Start game loop
   while (true) {
-    drawGameState(drawingSystem);
+    drawingSystem.update();
     handleNextKeyPress();
   }
 }
