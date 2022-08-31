@@ -5,6 +5,7 @@
 
 #include "Component.h"
 #include "Entity.h"
+#include "System.h"
 
 auto playerLoc = 5;
 auto mapSize = 10;
@@ -35,10 +36,17 @@ void drawGameState() {
 }
 
 int main() {
+  // 1. Set up systems and their related components
+  auto drawingSystem = System::createNewSystem();
+  drawingSystem.requires<Drawable>();
+  drawingSystem.setUpdateFunction([](Entity &entity) { ; });
+
+  // 2. Set up entities
   auto &player = Entity::createNewEntity();
   player.addComponent(new Drawable{'P'});
 
   while (true) {
+    drawingSystem.update();
     drawGameState();
     handleNextKeyPress();
   }

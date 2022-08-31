@@ -1,17 +1,22 @@
 #pragma once
 
-struct Component {
-  bool operator<(const Component &rhs) { return classID() < rhs.classID(); }
+#include <string>
 
- private:
-  virtual std::string classID() const = 0;
+class Component {
+ public:
+  bool operator<(const Component &rhs) {
+    return getClassID() < rhs.getClassID();
+  }
+
+  virtual std::string getClassID() const = 0;
 };
 
-struct Drawable : public Component {
+class Drawable : public Component {
+ public:
   Drawable(char glyphArg) : glyph(glyphArg) {}
 
   char glyph;
 
- private:
-  virtual std::string classID() const override { return "drawable"; }
+  static std::string classID;
+  virtual std::string getClassID() const override { return classID; }
 };
