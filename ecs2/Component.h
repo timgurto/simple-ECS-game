@@ -9,6 +9,12 @@ struct Component {
   virtual std::string getClassID() const = 0;
 };
 
-#define CLASS_ID_BOILERPLATE  \
-  static std::string classID; \
-  virtual std::string getClassID() const override { return classID; }
+#define BEGIN_COMPONENT(ClassName)      \
+  struct ClassName : public Component { \
+    static std::string classID;         \
+    virtual std::string getClassID() const override { return classID; }
+
+#define END_COMPONENT(ClassName) \
+  }                              \
+  ;                              \
+  std::string ClassName::classID = #ClassName;

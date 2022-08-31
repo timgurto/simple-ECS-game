@@ -12,28 +12,19 @@ const auto MAP_SIZE = 10;
 const auto LEFT_ARROW = 75;
 const auto RIGHT_ARROW = 77;
 
-struct Drawable : public Component {
-  CLASS_ID_BOILERPLATE
+BEGIN_COMPONENT(Drawable)
+char glyph;
+bool shouldDrawBehind{false};
+END_COMPONENT(Drawable)
 
-  char glyph;
-  bool shouldDrawBehind{false};
-};
-std::string Drawable::classID = "drawable";
+BEGIN_COMPONENT(HasLocation)
+int location;
+END_COMPONENT(HasLocation)
 
-struct HasLocation : public Component {
-  CLASS_ID_BOILERPLATE
-
-  int location;
-};
-std::string HasLocation::classID = "hasLocation";
-
-struct KeyboardControllable : public Component {
-  CLASS_ID_BOILERPLATE
-
-  int leftKey;
-  int rightKey;
-};
-std::string KeyboardControllable::classID = "keyboardControllable";
+BEGIN_COMPONENT(KeyboardControllable)
+int leftKey;
+int rightKey;
+END_COMPONENT(KeyboardControllable)
 
 int main() {
   // 1. Set up systems and their related components
