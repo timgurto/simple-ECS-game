@@ -53,6 +53,10 @@ int main() {
   player.addComponent<Drawable>().glyph = 'P';
   player.addComponent<HasLocation>().linkedGlobal = &gPlayerLoc;
 
+  auto &monster = Entity::createNewEntity();
+  monster.addComponent<Drawable>().glyph = 'M';
+  monster.addComponent<HasLocation>().location = 8;
+
   // Start game loop
   while (true) {
     drawGameState(drawingSystem);
