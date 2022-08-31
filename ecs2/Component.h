@@ -11,14 +11,17 @@ class Component {
   virtual std::string getClassID() const = 0;
 };
 
+#define CLASS_ID_BOILERPLATE  \
+  static std::string classID; \
+  virtual std::string getClassID() const override { return classID; }
+
 class Drawable : public Component {
  public:
   void setGlyph(char g) { glyph = g; }
 
   char glyph;
 
-  static std::string classID;
-  virtual std::string getClassID() const override { return classID; }
+  CLASS_ID_BOILERPLATE
 };
 
 class HasLocation : public Component {
@@ -29,6 +32,5 @@ class HasLocation : public Component {
 
   const int *linkedGlobal{nullptr};
 
-  static std::string classID;
-  virtual std::string getClassID() const override { return classID; }
+  CLASS_ID_BOILERPLATE
 };
