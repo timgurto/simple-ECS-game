@@ -12,6 +12,29 @@ const auto MAP_SIZE = 10;
 const auto LEFT_ARROW = 75;
 const auto RIGHT_ARROW = 77;
 
+struct Drawable : public Component {
+  CLASS_ID_BOILERPLATE
+
+  char glyph;
+  bool shouldDrawBehind{false};
+};
+std::string Drawable::classID = "drawable";
+
+struct HasLocation : public Component {
+  CLASS_ID_BOILERPLATE
+
+  int location;
+};
+std::string HasLocation::classID = "hasLocation";
+
+struct KeyboardControllable : public Component {
+  CLASS_ID_BOILERPLATE
+
+  int leftKey;
+  int rightKey;
+};
+std::string KeyboardControllable::classID = "keyboardControllable";
+
 int main() {
   // 1. Set up systems and their related components
   auto &drawingSystem =

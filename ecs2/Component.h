@@ -12,23 +12,3 @@ struct Component {
 #define CLASS_ID_BOILERPLATE  \
   static std::string classID; \
   virtual std::string getClassID() const override { return classID; }
-
-struct Drawable : public Component {
-  CLASS_ID_BOILERPLATE
-
-  char glyph;
-  bool shouldDrawBehind{false};
-};
-
-struct HasLocation : public Component {
-  CLASS_ID_BOILERPLATE
-
-  int location;
-};
-
-struct KeyboardControllable : public Component {
-  CLASS_ID_BOILERPLATE
-
-  int leftKey;
-  int rightKey;
-};
