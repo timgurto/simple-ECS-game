@@ -36,11 +36,18 @@ int main() {
             std::cout << '\r';
             auto map = std::string(mapSize, ' ');
 
-            // Draw entities
+            // Draw entities (in two passes)
             for (auto *entity : relevantEntities) {
+              const auto &drawable = entity->getComponent<Drawable>();
+              if (!drawable.shouldDrawBehind) continue;
               auto location = entity->getComponent<HasLocation>().getLocation();
-              auto glyph = entity->getComponent<Drawable>().glyph;
-              map[location] = glyph;
+              map[location] = drawable.glyph;
+            }
+            for (auto *entity : relevantEntities) {
+              const auto &drawable = entity->getComponent<Drawable>();
+              if (drawable.shouldDrawBehind) continue;
+              auto location = entity->getComponent<HasLocation>().getLocation();
+              map[location] = drawable.glyph;
             }
 
             // Present
@@ -52,7 +59,7 @@ int main() {
   const auto mapSize = 10;
   for (auto i = 0; i != mapSize; ++i) {
     auto &mapCell = Entity::createNewEntity();
-    mapCell.addComponent<Drawable>().glyph = '.';
+    mapCell.addComponent<Drawable>().drawBehind().glyph = '.';
     mapCell.addComponent<HasLocation>().location = i;
   }
 

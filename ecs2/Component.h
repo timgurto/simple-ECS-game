@@ -17,6 +17,12 @@ struct Drawable : public Component {
   CLASS_ID_BOILERPLATE
 
   char glyph;
+  bool shouldDrawBehind{false};
+
+  Drawable &drawBehind() {
+    shouldDrawBehind = true;
+    return *this;
+  }
 };
 
 struct HasLocation : public Component {
