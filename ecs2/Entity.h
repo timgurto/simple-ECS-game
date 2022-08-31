@@ -22,6 +22,17 @@ class Entity {
     return *component;
   }
 
+  template <typename DESIRED_COMPONENT>
+  DESIRED_COMPONENT& getComponent() {
+    for (auto* component : m_components) {
+      if (component->getClassID() == DESIRED_COMPONENT::classID)
+        return dynamic_cast<DESIRED_COMPONENT&>(*component);
+    }
+
+    // Assumption: execution will never get here
+    return *new DESIRED_COMPONENT;
+  }
+
   bool hasAllOfTheseComponents(std::set<std::string> componentNames) const;
 
  private:

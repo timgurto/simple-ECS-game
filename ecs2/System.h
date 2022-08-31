@@ -8,11 +8,11 @@ struct Component;
 
 class System {
  public:
-  using UpdateFunction = void (*)(Entity &);
+  using UpdateFunction = void (*)(Entity &, void *data);
 
   static System &createNewSystem();
 
-  void update();
+  void update(void *data);
 
   template <typename COMPONENT>
   System &requiresComponent() {

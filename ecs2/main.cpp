@@ -25,11 +25,11 @@ void handleNextKeyPress() {
   }
 }
 
-void drawGameState() {
+void drawGameState(System &drawingSystem) {
   std::cout << '\r';
 
   auto map = std::string(mapSize, '.');
-  map[gPlayerLoc] = 'P';
+  drawingSystem.update(&map);  // Draw all drawable entities
   std::cout << map;
 
   std::cout << std::flush;
@@ -37,19 +37,24 @@ void drawGameState() {
 
 int main() {
   // 1. Set up systems and their related components
-  auto &drawingSystem = System::createNewSystem()
-                            .requiresComponent<Drawable>()
-                            .requiresComponent<HasLocation>()
-                            .setUpdateFunction([](Entity &entity) { ; });
+  auto &drawingSystem =
+      System::createNewSystem()
+          .requiresComponent<Drawable>()
+          .requiresComponent<HasLocation>()
+          .setUpdateFunction([](Entity &entity, void *data) {
+            auto &map = *reinterpret_cast<std::string *>(data);
+            auto location = *entity.getComponent<HasLocation>().linkedGlobal;
+            auto glyph = entity.addComponent<Drawable>().glyph;
+            map[location] = glyph;
+          });
 
   // 2. Set up entities
   auto &player = Entity::createNewEntity();
-  player.addComponent<Drawable>().glyph = 'p';
+  player.addComponent<Drawable>().glyph = 'P';
   player.addComponent<HasLocation>().linkedGlobal = &gPlayerLoc;
 
   while (true) {
-    drawingSystem.update();
-    drawGameState();
+    drawGameState(drawingSystem);
     handleNextKeyPress();
   }
 
