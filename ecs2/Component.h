@@ -18,17 +18,11 @@ struct Component {
 struct Drawable : public Component {
   CLASS_ID_BOILERPLATE
 
-  void setGlyph(char g) { glyph = g; }
-
   char glyph;
 };
 
 struct HasLocation : public Component {
   CLASS_ID_BOILERPLATE
-
-  void linkToGlobal(const int &globalLocationVariable) {
-    linkedGlobal = &globalLocationVariable;
-  }
 
   const int *linkedGlobal{nullptr};
 };

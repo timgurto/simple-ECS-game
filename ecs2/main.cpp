@@ -7,7 +7,7 @@
 #include "Entity.h"
 #include "System.h"
 
-auto playerLoc = 5;
+auto gPlayerLoc = 5;
 auto mapSize = 10;
 
 void handleNextKeyPress() {
@@ -16,11 +16,11 @@ void handleNextKeyPress() {
 
   switch (_getch()) {
     case LEFT_ARROW:
-      --playerLoc;
+      --gPlayerLoc;
       break;
 
     case RIGHT_ARROW:
-      ++playerLoc;
+      ++gPlayerLoc;
       break;
   }
 }
@@ -29,7 +29,7 @@ void drawGameState() {
   std::cout << '\r';
 
   auto map = std::string(mapSize, '.');
-  map[playerLoc] = 'P';
+  map[gPlayerLoc] = 'P';
   std::cout << map;
 
   std::cout << std::flush;
@@ -44,8 +44,8 @@ int main() {
 
   // 2. Set up entities
   auto &player = Entity::createNewEntity();
-  player.addComponent<Drawable>().setGlyph('P');
-  player.addComponent<HasLocation>().linkToGlobal(playerLoc);
+  player.addComponent<Drawable>().glyph = 'p';
+  player.addComponent<HasLocation>().linkedGlobal = &gPlayerLoc;
 
   while (true) {
     drawingSystem.update();
