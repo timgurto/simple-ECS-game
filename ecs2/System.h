@@ -22,11 +22,15 @@ class System {
   }
 
   template <typename COMPONENT>
-  void requires() {
+  System &requires() {
     m_requiredComponents.insert(COMPONENT::classID);
+    return *this;
   }
 
-  void setUpdateFunction(UpdateFunction func) { m_updateFunction = func; }
+  System &setUpdateFunction(UpdateFunction func) {
+    m_updateFunction = func;
+    return *this;
+  }
 
   static void registerEntityWithRelevantSystems(const Component &component,
                                                 Entity &entity);

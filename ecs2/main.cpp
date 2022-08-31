@@ -37,10 +37,10 @@ void drawGameState() {
 
 int main() {
   // 1. Set up systems and their related components
-  auto &drawingSystem = System::createNewSystem();
-  drawingSystem.requires<Drawable>();
-  drawingSystem.requires<HasLocation>();
-  drawingSystem.setUpdateFunction([](Entity &entity) { ; });
+  auto &drawingSystem = System::createNewSystem()
+                            .requires<Drawable>()
+                            .requires<HasLocation>()
+                            .setUpdateFunction([](Entity &entity) { ; });
 
   // 2. Set up entities
   auto &player = Entity::createNewEntity();
