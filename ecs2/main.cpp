@@ -28,7 +28,7 @@ void handleNextKeyPress() {
 void drawGameState(System &drawingSystem) {
   std::cout << '\r';
 
-  auto map = std::string(mapSize, '.');
+  auto map = std::string(mapSize, ' ');
   drawingSystem.update(&map);  // Draw all drawable entities
   std::cout << map;
 
@@ -49,6 +49,13 @@ int main() {
           });
 
   // 2. Set up entities
+  const auto mapSize = 10;
+  for (auto i = 0; i != mapSize; ++i) {
+    auto &mapCell = Entity::createNewEntity();
+    mapCell.addComponent<Drawable>().glyph = '.';
+    mapCell.addComponent<HasLocation>().location = i;
+  }
+
   auto &player = Entity::createNewEntity();
   player.addComponent<Drawable>().glyph = 'P';
   player.addComponent<HasLocation>().linkedGlobal = &gPlayerLoc;
