@@ -17,7 +17,7 @@ class Entity {
   template <typename C>
   void addComponent(C* c) {
     m_components.insert(c);
-    System::onComponentAddedToEntity(*c, *this);
+    System::registerEntityWithRelevantSystems(*c, *this);
   }
 
   bool hasAllOfTheseComponents(std::set<std::string> componentNames) const;

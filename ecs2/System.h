@@ -28,8 +28,8 @@ class System {
 
   void setUpdateFunction(UpdateFunction func) { m_updateFunction = func; }
 
-  static void onComponentAddedToEntity(const Component &component,
-                                       Entity &entity);
+  static void registerEntityWithRelevantSystems(const Component &component,
+                                                Entity &entity);
 
  private:
   std::set<Entity *> m_relevantEntities;
