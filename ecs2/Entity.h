@@ -14,8 +14,8 @@ class Entity {
 
   bool operator<(const Entity& rhs) const { return m_serial < rhs.m_serial; }
 
-  template <typename C>
-  void addComponent(C* c) {
+  template <typename COMPONENT>
+  COMPONENT addComponent(COMPONENT* c) {
     m_components.insert(c);
     System::registerEntityWithRelevantSystems(*c, *this);
   }
