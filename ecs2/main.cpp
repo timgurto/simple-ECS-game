@@ -38,13 +38,13 @@ int main() {
             auto map = std::string(MAP_SIZE, ' ');
 
             // Draw entities (in two passes)
-            for (auto *entity : relevantEntities) {
+            for (auto *entity : relevantEntities) {  // Those in the back
               const auto &drawable = entity->getComponent<Drawable>();
               if (!drawable.shouldDrawBehind) continue;
               auto location = entity->getComponent<HasLocation>().location;
               map[location] = drawable.glyph;
             }
-            for (auto *entity : relevantEntities) {
+            for (auto *entity : relevantEntities) {  // Those in the front
               const auto &drawable = entity->getComponent<Drawable>();
               if (drawable.shouldDrawBehind) continue;
               auto location = entity->getComponent<HasLocation>().location;
