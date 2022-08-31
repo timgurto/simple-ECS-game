@@ -20,3 +20,15 @@ class Drawable : public Component {
   static std::string classID;
   virtual std::string getClassID() const override { return classID; }
 };
+
+class HasLocation : public Component {
+ public:
+  void linkToGlobal(const int &globalLocationVariable) {
+    linkedGlobal = &globalLocationVariable;
+  }
+
+  const int *linkedGlobal{nullptr};
+
+  static std::string classID;
+  virtual std::string getClassID() const override { return classID; }
+};
