@@ -4,7 +4,7 @@
 
 #include "System.h"
 
-class Component;
+struct Component;
 
 class Entity {
  public:

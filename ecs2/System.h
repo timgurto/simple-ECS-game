@@ -4,7 +4,7 @@
 #include <vector>
 
 class Entity;
-class Component;
+struct Component;
 
 class System {
  public:

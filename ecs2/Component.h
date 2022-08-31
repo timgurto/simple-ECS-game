@@ -2,7 +2,7 @@
 
 #include <string>
 
-class Component {
+struct Component {
  public:
   bool operator<(const Component &rhs) {
     return getClassID() < rhs.getClassID();
@@ -15,22 +15,20 @@ class Component {
   static std::string classID; \
   virtual std::string getClassID() const override { return classID; }
 
-class Drawable : public Component {
- public:
+struct Drawable : public Component {
+  CLASS_ID_BOILERPLATE
+
   void setGlyph(char g) { glyph = g; }
 
   char glyph;
-
-  CLASS_ID_BOILERPLATE
 };
 
-class HasLocation : public Component {
- public:
+struct HasLocation : public Component {
+  CLASS_ID_BOILERPLATE
+
   void linkToGlobal(const int &globalLocationVariable) {
     linkedGlobal = &globalLocationVariable;
   }
 
   const int *linkedGlobal{nullptr};
-
-  CLASS_ID_BOILERPLATE
 };
