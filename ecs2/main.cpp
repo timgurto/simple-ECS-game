@@ -44,7 +44,7 @@ int main() {
           .setUpdateFunction([](Entity &entity, void *data) {
             auto &map = *reinterpret_cast<std::string *>(data);
             auto location = *entity.getComponent<HasLocation>().linkedGlobal;
-            auto glyph = entity.addComponent<Drawable>().glyph;
+            auto glyph = entity.getComponent<Drawable>().glyph;
             map[location] = glyph;
           });
 
