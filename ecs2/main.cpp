@@ -37,13 +37,13 @@ void drawGameState() {
 
 int main() {
   // 1. Set up systems and their related components
-  auto drawingSystem = System::createNewSystem();
+  auto &drawingSystem = System::createNewSystem();
   drawingSystem.requires<Drawable>();
   drawingSystem.setUpdateFunction([](Entity &entity) { ; });
 
   // 2. Set up entities
   auto &player = Entity::createNewEntity();
-  player.addComponent(new Drawable{'P'});
+  player.addComponent<Drawable>().setGlyph('P');
 
   while (true) {
     drawingSystem.update();

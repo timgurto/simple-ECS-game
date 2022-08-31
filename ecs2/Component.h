@@ -13,7 +13,7 @@ class Component {
 
 class Drawable : public Component {
  public:
-  Drawable(char glyphArg) : glyph(glyphArg) {}
+  void setGlyph(char g) { glyph = g; }
 
   char glyph;
 

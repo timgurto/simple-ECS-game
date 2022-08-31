@@ -15,9 +15,11 @@ class Entity {
   bool operator<(const Entity& rhs) const { return m_serial < rhs.m_serial; }
 
   template <typename COMPONENT>
-  COMPONENT addComponent(COMPONENT* c) {
-    m_components.insert(c);
-    System::registerEntityWithRelevantSystems(*c, *this);
+  COMPONENT& addComponent() {
+    auto* component = new COMPONENT;
+    m_components.insert(component);
+    System::registerEntityWithRelevantSystems(*component, *this);
+    return *component;
   }
 
   bool hasAllOfTheseComponents(std::set<std::string> componentNames) const;
