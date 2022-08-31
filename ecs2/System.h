@@ -15,7 +15,7 @@ class System {
   void update();
 
   template <typename COMPONENT>
-  System &requires() {
+  System &requiresComponent() {
     m_requiredComponents.insert(COMPONENT::classID);
     return *this;
   }
