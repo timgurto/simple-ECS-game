@@ -18,11 +18,6 @@ struct Drawable : public Component {
 
   char glyph;
   bool shouldDrawBehind{false};
-
-  Drawable &drawBehind() {
-    shouldDrawBehind = true;
-    return *this;
-  }
 };
 
 struct HasLocation : public Component {
@@ -36,13 +31,4 @@ struct KeyboardControllable : public Component {
 
   int leftKey;
   int rightKey;
-
-  KeyboardControllable &setLeftKey(int k) {
-    leftKey = k;
-    return *this;
-  }
-  KeyboardControllable &setRightKey(int k) {
-    rightKey = k;
-    return *this;
-  }
 };

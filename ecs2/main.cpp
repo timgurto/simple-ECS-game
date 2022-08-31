@@ -61,20 +61,28 @@ int main() {
   // 2. Set up entities
   for (auto i = 0; i != MAP_SIZE; ++i) {
     auto &mapCell = Entity::createNewEntity();
-    mapCell.addComponent<Drawable>().drawBehind().glyph = '.';
     mapCell.addComponent<HasLocation>().location = i;
+
+    auto &drawing = mapCell.addComponent<Drawable>();
+    drawing.glyph = '.';
+    drawing.shouldDrawBehind = true;
   }
 
-  auto &player = Entity::createNewEntity();
-  player.addComponent<Drawable>().glyph = 'P';
-  player.addComponent<HasLocation>().location = 2;
-  player.addComponent<KeyboardControllable>()
-      .setLeftKey(LEFT_ARROW)
-      .setRightKey(RIGHT_ARROW);
+  {
+    auto &player = Entity::createNewEntity();
+    player.addComponent<Drawable>().glyph = 'P';
+    player.addComponent<HasLocation>().location = 2;
 
-  auto &monster = Entity::createNewEntity();
-  monster.addComponent<Drawable>().glyph = 'M';
-  monster.addComponent<HasLocation>().location = 8;
+    auto &controls = player.addComponent<KeyboardControllable>();
+    controls.leftKey = LEFT_ARROW;
+    controls.rightKey = RIGHT_ARROW;
+  }
+
+  {
+    auto &monster = Entity::createNewEntity();
+    monster.addComponent<Drawable>().glyph = 'M';
+    monster.addComponent<HasLocation>().location = 8;
+  }
 
   // Start game loop
   while (true) {
