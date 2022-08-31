@@ -10,16 +10,9 @@ class System {
  public:
   using UpdateFunction = void (*)(Entity &);
 
-  static System &createNewSystem() {
-    registeredSystems.push_back({});
-    return registeredSystems.back();
-  }
+  static System &createNewSystem();
 
-  virtual void update() {
-    if (!m_updateFunction) return;
-
-    for (auto *entity : m_relevantEntities) m_updateFunction(*entity);
-  }
+  void update();
 
   template <typename COMPONENT>
   System &requires() {
@@ -27,10 +20,7 @@ class System {
     return *this;
   }
 
-  System &setUpdateFunction(UpdateFunction func) {
-    m_updateFunction = func;
-    return *this;
-  }
+  System &setUpdateFunction(UpdateFunction func);
 
   static void registerEntityWithRelevantSystems(const Component &component,
                                                 Entity &entity);

@@ -4,9 +4,7 @@
 
 struct Component {
  public:
-  bool operator<(const Component &rhs) {
-    return getClassID() < rhs.getClassID();
-  }
+  bool operator<(const Component &rhs) const;
 
   virtual std::string getClassID() const = 0;
 };

@@ -5,6 +5,8 @@
 int Entity::nextSerial = 0;
 std::set<Entity> Entity::entities;
 
+Entity::Entity() : m_serial(nextSerial++) {}
+
 Entity& Entity::createNewEntity() {
   auto entity = Entity{};
   auto pair = entities.insert(entity);
@@ -15,6 +17,10 @@ Entity& Entity::createNewEntity() {
 void Entity::destroyEntity(const Entity& e) {
   for (auto* component : e.m_components) delete component;
   entities.erase(e);
+}
+
+bool Entity::operator<(const Entity& rhs) const {
+  return m_serial < rhs.m_serial;
 }
 
 bool Entity::hasAllOfTheseComponents(

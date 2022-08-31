@@ -12,7 +12,7 @@ class Entity {
 
   static void destroyEntity(const Entity& e);
 
-  bool operator<(const Entity& rhs) const { return m_serial < rhs.m_serial; }
+  bool operator<(const Entity& rhs) const;
 
   template <typename COMPONENT>
   COMPONENT& addComponent() {
@@ -25,7 +25,7 @@ class Entity {
   bool hasAllOfTheseComponents(std::set<std::string> componentNames) const;
 
  private:
-  Entity() : m_serial(nextSerial++) {}
+  Entity();
 
   int m_serial;
   std::set<Component*> m_components;
