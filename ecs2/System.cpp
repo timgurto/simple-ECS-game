@@ -2,18 +2,19 @@
 
 #include "Entity.h"
 
-std::vector<System> System::registeredSystems;
+std::vector<System *> System::registeredSystems;
 
 System &System::createNewSystem() {
-  registeredSystems.push_back({});
-  return registeredSystems.back();
+  auto *system = new System;
+  registeredSystems.push_back(system);
+  return *system;
 }
 
 void System::registerEntityWithRelevantSystems(const Component &component,
                                                Entity &entity) {
-  for (auto &system : registeredSystems)
-    if (entity.hasAllOfTheseComponents(system.m_requiredComponents))
-      system.m_relevantEntities.insert(&entity);
+  for (auto *system : registeredSystems)
+    if (entity.hasAllOfTheseComponents(system->m_requiredComponents))
+      system->m_relevantEntities.insert(&entity);
 }
 
 System &System::setUpdateFunction(UpdateFunction func) {

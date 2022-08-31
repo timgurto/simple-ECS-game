@@ -28,11 +28,21 @@ struct Drawable : public Component {
 struct HasLocation : public Component {
   CLASS_ID_BOILERPLATE
 
-  const int *linkedGlobal{nullptr};
   int location;
+};
 
-  int getLocation() {
-    if (linkedGlobal) return *linkedGlobal;
-    return location;
+struct KeyboardControllable : public Component {
+  CLASS_ID_BOILERPLATE
+
+  int leftKey;
+  int rightKey;
+
+  KeyboardControllable &setLeftKey(int k) {
+    leftKey = k;
+    return *this;
+  }
+  KeyboardControllable &setRightKey(int k) {
+    rightKey = k;
+    return *this;
   }
 };

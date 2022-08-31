@@ -34,5 +34,5 @@ class System {
   // For an Entity to be 'relevant', it must have all of these components
   std::set<std::string> m_requiredComponents;
 
-  static std::vector<System> registeredSystems;
+  static std::vector<System *> registeredSystems;
 };

@@ -6,3 +6,4 @@ bool Component::operator<(const Component &rhs) const {
 
 std::string Drawable::classID = "drawable";
 std::string HasLocation::classID = "hasLocation";
+std::string KeyboardControllable::classID = "keyboardControllable";

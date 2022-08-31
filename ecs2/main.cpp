@@ -7,23 +7,10 @@
 #include "Entity.h"
 #include "System.h"
 
-auto gPlayerLoc = 2;
-auto mapSize = 10;
+const auto MAP_SIZE = 10;
 
-void handleNextKeyPress() {
-  const auto LEFT_ARROW = 75;
-  const auto RIGHT_ARROW = 77;
-
-  switch (_getch()) {
-    case LEFT_ARROW:
-      --gPlayerLoc;
-      break;
-
-    case RIGHT_ARROW:
-      ++gPlayerLoc;
-      break;
-  }
-}
+const auto LEFT_ARROW = 75;
+const auto RIGHT_ARROW = 77;
 
 int main() {
   // 1. Set up systems and their related components
@@ -34,19 +21,19 @@ int main() {
           .setUpdateFunction([](System::Entities &relevantEntities) {
             // Clear
             std::cout << '\r';
-            auto map = std::string(mapSize, ' ');
+            auto map = std::string(MAP_SIZE, ' ');
 
             // Draw entities (in two passes)
             for (auto *entity : relevantEntities) {
               const auto &drawable = entity->getComponent<Drawable>();
               if (!drawable.shouldDrawBehind) continue;
-              auto location = entity->getComponent<HasLocation>().getLocation();
+              auto location = entity->getComponent<HasLocation>().location;
               map[location] = drawable.glyph;
             }
             for (auto *entity : relevantEntities) {
               const auto &drawable = entity->getComponent<Drawable>();
               if (drawable.shouldDrawBehind) continue;
-              auto location = entity->getComponent<HasLocation>().getLocation();
+              auto location = entity->getComponent<HasLocation>().location;
               map[location] = drawable.glyph;
             }
 
@@ -55,9 +42,24 @@ int main() {
             std::cout << std::flush;
           });
 
+  auto &keyboardSystem =
+      System::createNewSystem()
+          .requiresComponent<KeyboardControllable>()
+          .requiresComponent<HasLocation>()
+          .setUpdateFunction([](System::Entities &relevantEntities) {
+            const auto nextKey = _getch();
+            for (auto &entity : relevantEntities) {
+              const auto &controls =
+                  entity->getComponent<KeyboardControllable>();
+              auto &location = entity->getComponent<HasLocation>().location;
+
+              if (nextKey == controls.leftKey) --location;
+              if (nextKey == controls.rightKey) ++location;
+            }
+          });
+
   // 2. Set up entities
-  const auto mapSize = 10;
-  for (auto i = 0; i != mapSize; ++i) {
+  for (auto i = 0; i != MAP_SIZE; ++i) {
     auto &mapCell = Entity::createNewEntity();
     mapCell.addComponent<Drawable>().drawBehind().glyph = '.';
     mapCell.addComponent<HasLocation>().location = i;
@@ -65,7 +67,10 @@ int main() {
 
   auto &player = Entity::createNewEntity();
   player.addComponent<Drawable>().glyph = 'P';
-  player.addComponent<HasLocation>().linkedGlobal = &gPlayerLoc;
+  player.addComponent<HasLocation>().location = 2;
+  player.addComponent<KeyboardControllable>()
+      .setLeftKey(LEFT_ARROW)
+      .setRightKey(RIGHT_ARROW);
 
   auto &monster = Entity::createNewEntity();
   monster.addComponent<Drawable>().glyph = 'M';
@@ -74,6 +79,6 @@ int main() {
   // Start game loop
   while (true) {
     drawingSystem.update();
-    handleNextKeyPress();
+    keyboardSystem.update();
   }
 }
