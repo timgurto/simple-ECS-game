@@ -7,7 +7,7 @@
 #include "Entity.h"
 #include "System.h"
 
-auto gPlayerLoc = 5;
+auto gPlayerLoc = 2;
 auto mapSize = 10;
 
 void handleNextKeyPress() {
@@ -43,7 +43,7 @@ int main() {
           .requiresComponent<HasLocation>()
           .setUpdateFunction([](Entity &entity, void *data) {
             auto &map = *reinterpret_cast<std::string *>(data);
-            auto location = *entity.getComponent<HasLocation>().linkedGlobal;
+            auto location = entity.getComponent<HasLocation>().getLocation();
             auto glyph = entity.getComponent<Drawable>().glyph;
             map[location] = glyph;
           });
@@ -53,10 +53,9 @@ int main() {
   player.addComponent<Drawable>().glyph = 'P';
   player.addComponent<HasLocation>().linkedGlobal = &gPlayerLoc;
 
+  // Start game loop
   while (true) {
     drawGameState(drawingSystem);
     handleNextKeyPress();
   }
-
-  Entity::destroyEntity(player);
 }

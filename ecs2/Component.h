@@ -23,4 +23,10 @@ struct HasLocation : public Component {
   CLASS_ID_BOILERPLATE
 
   const int *linkedGlobal{nullptr};
+  int location;
+
+  int getLocation() {
+    if (linkedGlobal) return *linkedGlobal;
+    return location;
+  }
 };
